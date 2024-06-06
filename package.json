@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/feedaca7/portal-net.git"
+    "url": "git+https://github.com/sogouda/portal.git"
   },
   "keywords": [
     "p2p",
@@ -22,12 +22,12 @@
     "networking",
     "api"
   ],
-  "author": "Ashe Lynne Juniper <support@feedaca7.dev>",
+  "author": "Ashlynne Juniper <support@sogouda.org>",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/feedaca7/portal-net/issues"
+    "url": "https://github.com/sogouda/portal/issues"
   },
-  "homepage": "https://github.com/feedaca7/portal-net#readme",
+  "homepage": "https://github.com/sogouda/portal#readme",
   "dependencies": {
     "@hyper-cmd/lib-keys": "https://github.com/holepunchto/hyper-cmd-lib-keys#v0.0.2",
     "@hyper-cmd/lib-net": "https://github.com/holepunchto/hyper-cmd-lib-net#v0.0.8",
