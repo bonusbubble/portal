@@ -5,8 +5,8 @@ const libNet = require('@hyper-cmd/lib-net');
 const libUtils = require('@hyper-cmd/lib-utils');
 const libKeys = require('@hyper-cmd/lib-keys');
 
-const { MycelPortNode } = require('./MycelPortNode.js');
-const { MycelIdentity } = require('../auth/MycelIdentity.js');
+const { PortalNode } = require('./PortalNode.js');
+const { PortalIdentity } = require('../auth/PortalIdentity.js');
 const { getIdentityFilePath } = require('../auth/utils.js');
 
 const connPiper = libNet.connPiper;
@@ -39,7 +39,7 @@ function prepareConfig(config, opts) {
     }
 }
 
-class MycelPortClient extends MycelPortNode {
+class PortalClient extends PortalNode {
     constructor(opts, cb=null) {
         super();
 
@@ -85,7 +85,7 @@ class MycelPortClient extends MycelPortNode {
 
             identity = libKeys.parseKeyPair(identity);
 
-            identity = MycelIdentity.fromJSON(identity);
+            identity = PortalIdentity.fromJSON(identity);
         }
 
         this._identity = identity;
@@ -131,7 +131,7 @@ class MycelPortClient extends MycelPortNode {
             opts.identityFilePath = getIdentityFilePath(username);
         }
 
-        return new MycelPortClient(opts, cb);
+        return new PortalClient(opts, cb);
     }
 
     async destroy() {
@@ -235,4 +235,4 @@ class MycelPortClient extends MycelPortNode {
     }
 }
 
-module.exports = { MycelPortClient };
+module.exports = { PortalClient };

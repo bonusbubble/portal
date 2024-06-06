@@ -1,4 +1,4 @@
-class MycelPortNode {
+class PortalNode {
     constructor() {
         this._isRunning = false;
     }
@@ -12,4 +12,4 @@ class MycelPortNode {
     }
 }
 
-module.exports = { MycelPortNode };
+module.exports = { PortalNode };

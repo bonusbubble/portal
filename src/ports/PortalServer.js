@@ -4,8 +4,8 @@ const libNet = require('@hyper-cmd/lib-net');
 const libUtils = require('@hyper-cmd/lib-utils');
 const libKeys = require('@hyper-cmd/lib-keys');
 
-const { MycelPortNode } = require('./MycelPortNode.js');
-const { MycelIdentity } = require('../auth/MycelIdentity.js');
+const { PortalNode } = require('./PortalNode.js');
+const { PortalIdentity } = require('../auth/PortalIdentity.js');
 const { randomBytes } = require('crypto');
 
 const connPiper = libNet.connPiper;
@@ -45,7 +45,7 @@ function prepareConfig(config, opts) {
     }
 }
 
-class MycelPortServer extends MycelPortNode {
+class PortalServer extends PortalNode {
     constructor(opts, callback) {
         super();
 
@@ -68,7 +68,7 @@ class MycelPortServer extends MycelPortNode {
         this._dht = new HyperDHT();
 
         const identityJSON = HyperDHT.keyPair(this._seed);
-        const identity = MycelIdentity.fromJSON(identityJSON);
+        const identity = PortalIdentity.fromJSON(identityJSON);
 
         this._identityJSON = identityJSON;
         this._identity = identity;
@@ -109,7 +109,7 @@ class MycelPortServer extends MycelPortNode {
 
         opts.port = port;
 
-        return new MycelPortServer(opts, cb);
+        return new PortalServer(opts, cb);
     }
 
     async destroy() {
@@ -130,15 +130,11 @@ class MycelPortServer extends MycelPortNode {
         return this._isDebugModeEnabled;
     }
 
-    publicKey() {
+    get publicKey() {
         return this._identity.publicKey;
     }
 
-    publicKeyHexString() {
-        return this._identity.publicKey.toString('hex');
-    }
-
-    seed() {
+    get seed() {
         return this._seed;
     }
 
@@ -216,4 +212,4 @@ class MycelPortServer extends MycelPortNode {
     }
 }
 
-module.exports = { MycelPortServer };
+module.exports = { PortalServer };

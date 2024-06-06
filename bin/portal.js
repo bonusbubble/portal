@@ -5,9 +5,9 @@ const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
 const minimist = require('minimist');
-const { randomPort, MycelPortClient, MycelPortServer } = require("../src/index.js");
+const { randomPort, PortalClient, PortalServer } = require("../src/index.js");
 const { EXIT_CODE_SUCCESS, EXIT_CODE_INVALID_SUBCOMMAND, EXIT_CODE_INVALID_SUBCOMMAND_ACTION, EXIT_CODE_GENERIC } = require("../src/index.js");
-const { MycelIdentity } = require('../src/auth/MycelIdentity.js');
+const { PortalIdentity } = require('../src/auth/PortalIdentity.js');
 
 function logHelp(pageNumber) {
     throw "Not yet implemented.";
@@ -15,12 +15,12 @@ function logHelp(pageNumber) {
 
 function logUsage() {
     console.log('usage:');
-    console.log('mycel <subcommand> [options]');
-    console.log('Please see `mycel --help` for more info.');
+    console.log('portal <subcommand> [options]');
+    console.log('Please see `portal --help` for more info.');
 }
 
 function logVersion() {
-    console.log('mycel v0.1.3 - Ashelynne Juniper (c) 2023 All rights reserved.');
+    console.log('portal v0.1.3 - Ashelynne Juniper (c) 2023 All rights reserved.');
 }
 
 async function actionIdentityGet(args) {
@@ -36,14 +36,14 @@ async function actionIdentityGet(args) {
     }
 
     const identity =
-        await MycelIdentity.load(
+        await PortalIdentity.load(
             username,
             password
         );
 
     const res = {};
 
-    res.publicKey = identity.publicKey().toString('hex');
+    res.publicKey = identity.publicKey.toString('hex');
 
     console.log(JSON.stringify(res));
 }
@@ -56,7 +56,7 @@ async function actionIdentityReset(args) {
     }
 
     const identity =
-        MycelIdentity.createSync();
+        PortalIdentity.createSync();
 
     await identity.save(username);
 }
@@ -93,12 +93,12 @@ async function actionPortHost(args) {
         console.log("Compression enabled.");
     }
 
-    const server = new MycelPortServer(
+    const server = new PortalServer(
         options,
         (e) => {
             const res = {};
 
-            res.publicKey = e.identity.publicKey().toString('hex');
+            res.publicKey = e.identity.publicKey.toString('hex');
 
             console.log(JSON.stringify(res));
         }
@@ -128,7 +128,7 @@ async function actionPortJoin(args) {
         console.log("Compression enabled.");
     }
 
-    const client = new MycelPortClient(
+    const client = new PortalClient(
         options,
         (e) => {
             const res = {};

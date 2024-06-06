@@ -1,10 +1,17 @@
 const { randomBytes } = require('crypto');
 const { mkdirSync, readFileSync } = require('fs');
 const { mkdir, readFile, rm, writeFile } = require('fs/promises');
-const { homedir } = require('os');
-const { getIdentityFilePath } = require('./utils.js');
+const { getIdentityFilePath, identitiesdir } = require('./utils.js');
 
-class MycelIdentity {
+class PortalIdentity {
+    static #identitiesdir
+
+    static get identitiesdir() {
+        if (this.#identitiesdir) return this.#identitiesdir;
+
+        return this.#identitiesdir = identitiesdir();
+    }
+
     constructor(opts) {
         if (typeof opts !== 'object') {
             opts = {};
@@ -23,11 +30,11 @@ class MycelIdentity {
             randomBytes(64);
     }
 
-    privateKey() {
+    get privateKey() {
         return this._privateKey;
     }
 
-    publicKey() {
+    get publicKey() {
         return this._publicKey;
     }
 
@@ -38,7 +45,7 @@ class MycelIdentity {
         const identityFilePath = getIdentityFilePath(username);
 
         await mkdir(
-            identitiesdir(),
+            PortalIdentity.identitiesdir,
             {
                 recursive: true
             }
@@ -54,7 +61,7 @@ class MycelIdentity {
         const identityFilePath = getIdentityFilePath(username);
 
             mkdirSync(
-                identitiesdir(),
+                PortalIdentity.identitiesdir,
                 {
                     recursive: true
                 }
@@ -64,10 +71,10 @@ class MycelIdentity {
     }
 
     stringify() {
-        return MycelIdentity.stringify(this);
+        return PortalIdentity.stringify(this);
     }
 
-    toJSON() {
+    get json() {
         return {
             secretKey: this._privateKey.toString('hex'),
             publicKey: this._publicKey.toString('hex')
@@ -80,7 +87,7 @@ class MycelIdentity {
 
         await writeFile(path, jsonString, 'utf8');
 
-        return MycelIdentity.parse(jsonString);
+        return PortalIdentity.parse(jsonString);
     }
 
     writeFileSync(path, cryptoKey='', algorithm='utf8') {
@@ -89,7 +96,7 @@ class MycelIdentity {
 
         writeFileSync(path, jsonString, 'utf8');
 
-        return MycelIdentity.parse(jsonString);
+        return PortalIdentity.parse(jsonString);
     }
 
     static async create() {
@@ -119,11 +126,11 @@ class MycelIdentity {
             publicKey
         };
 
-        return MycelIdentity.fromJSON(identityJSON);
+        return PortalIdentity.fromJSON(identityJSON);
     }
 
     static createSync() {
-        return new MycelIdentity();
+        return new PortalIdentity();
     }
 
     static async delete(username='default') {
@@ -162,7 +169,7 @@ class MycelIdentity {
                 );
         }
 
-        return new MycelIdentity(
+        return new PortalIdentity(
             {
                 privateKey,
                 publicKey
@@ -173,7 +180,7 @@ class MycelIdentity {
     static parse(jsonString) {
         const json = JSON.parse(jsonString);
 
-        return MycelIdentity.fromJSON(json);
+        return PortalIdentity.fromJSON(json);
     }
 
     static async readFile(path, cryptoKey='', algorithm='utf8') {
@@ -184,7 +191,7 @@ class MycelIdentity {
                 'utf8'
             );
 
-        return MycelIdentity.parse(jsonString);
+        return PortalIdentity.parse(jsonString);
     }
 
     static readFileSync(path, cryptoKey='', algorithm='utf8') {
@@ -195,14 +202,14 @@ class MycelIdentity {
                 'utf8'
             );
 
-        return MycelIdentity.parse(jsonString);
+        return PortalIdentity.parse(jsonString);
     }
 
     static async load(username, password) {
         // Determine the path of the identity JSON file.
         const identityFilePath = getIdentityFilePath(username);
 
-        return await MycelIdentity.readFile(
+        return await PortalIdentity.readFile(
             identityFilePath,
             'utf8'
         );
@@ -212,19 +219,17 @@ class MycelIdentity {
         // Determine the path of the identity JSON file.
         const identityFilePath = getIdentityFilePath(username);
 
-        return MycelIdentity.readFileSync(
+        return PortalIdentity.readFileSync(
             identityFilePath,
             'utf8'
         );
     }
 
     static stringify(identity) {
-        const json = identity.toJSON();
-
-        return JSON.stringify(json);
+        return JSON.stringify(identity.json);
     }
 }
 
 module.exports = {
-    MycelIdentity
+    PortalIdentity
 };
