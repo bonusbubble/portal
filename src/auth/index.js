@@ -1,2 +1,7 @@
-const { MycelIdentity } = require("./MycelIdentity.js");
-const { getIdentityFilePath, identitiesdir } = require("./utils.js");
+const { PortalIdentity } = require("./PortalIdentity.js");
+const { getIdentityFilePath } = require("./utils.js");
+
+module.exports = {
+  PortalIdentity,
+  getIdentityFilePath
+};
