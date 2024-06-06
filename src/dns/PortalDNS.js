@@ -7,16 +7,6 @@ const { Packet } = dns2;
 
 const DOT_PORTAL = ".portal";
 
-function decodeAddress(encodedAddress) {
-  return Array.from(encodedAddress).join(".");
-}
-
-function encodeAddress(address) {
-  const split = address.split(".");
-
-  return Buffer.from(split.map(value => parseInt(value)));
-}
-
 class PortalDNS {
   #db
   #dns
@@ -36,10 +26,52 @@ class PortalDNS {
       this.#hypercore,
       {
         keyEncoding: "utf-8",
-        valueEncoding: "binary"
+        valueEncoding: "utf-8"
       }
     );
 
+    this.#createServer();
+  }
+
+  async add(domain, address) {
+    await this.#db.put(domain, address);
+  }
+
+  close() {
+    this.#server.close();
+  }
+
+  async remove(domain) {
+    await this.#db.del(domain);
+  }
+
+  async resolve(domain) {
+    if (!domain) domain = "127.0.0.1";
+
+    if (typeof domain !== "string") domain = "127.0.0.1";
+
+    if (domain.endsWith(DOT_PORTAL)) return await this.#resolvePortalDNS(domain);
+
+    return (await this.#dns.resolveA(domain)).answers[0].address;
+  }
+
+  startServer() {
+    this.#server.listen(
+      {
+        udp: {
+          port: 5333,
+          address: "127.0.0.1",
+          type: "udp4"
+        },
+        tcp: {
+          port: 5333,
+          address: "127.0.0.1"
+        }
+      }
+    );
+  }
+
+  #createServer() {
     this.#server = dns2.createServer(
       {
         udp: true,
@@ -70,6 +102,10 @@ class PortalDNS {
       }
     );
 
+    this.#defineServerEventHandlers();
+  }
+
+  #defineServerEventHandlers() {
     this.#server.on(
       "request",
       (request, response, rinfo) => {
@@ -97,46 +133,10 @@ class PortalDNS {
         console.log('server closed.');
       }
     );
-
-    this.#server.listen(
-      {
-        udp: {
-          port: 5333,
-          address: "127.0.0.1",
-          type: "udp4"
-        },
-        tcp: {
-          port: 5333,
-          address: "127.0.0.1"
-        }
-      }
-    );
-  }
-
-  async add(domain, address) {
-    await this.#db.put(domain, encodeAddress(address));
-  }
-
-  close() {
-    this.#server.close();
-  }
-
-  async remove(domain) {
-    await this.#db.del(domain);
-  }
-
-  async resolve(domain) {
-    if (!domain) domain = "127.0.0.1";
-
-    if (typeof domain !== "string") domain = "127.0.0.1";
-
-    if (domain.endsWith(DOT_PORTAL)) return await this.#resolvePortalDNS(domain);
-
-    return (await this.#dns.resolveA(domain)).answers[0].address;
   }
 
   async #resolvePortalDNS(domain) {
-    const ip = decodeAddress((await this.#db.get(domain)).value);
+    const ip = (await this.#db.get(domain)).value;
 
     if (!ip) throw new Error(`Domain "${domain}" could not be resolved.`);
 
