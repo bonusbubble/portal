@@ -1,6 +1,6 @@
 {
   "name": "@sogouda/portal",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "♥ P2P networking library | High-level API | Cross-platform ♥",
   "main": "src/index.js",
   "bin": {
