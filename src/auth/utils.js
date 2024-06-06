@@ -1,7 +1,7 @@
 const { homedir } = require("os");
 
 function identitiesdir() {
-    return `${homedir()}/.mycel/identities`;
+    return `${homedir()}/.portal/identities`;
 }
 
 function getIdentityFilePath(username) {
