@@ -1,11 +1,11 @@
-const { MycelPortClient } = require('./MycelPortClient.js');
-const { MycelPortNode } = require('./MycelPortNode.js');
-const { MycelPortServer } = require('./MycelPortServer.js');
+const { PortalClient } = require('./PortalClient.js');
+const { PortalNode } = require('./PortalNode.js');
+const { PortalServer } = require('./PortalServer.js');
 const randomPort = require('random-port-promise');
 
 module.exports = {
-    MycelPortClient,
-    MycelPortNode,
-    MycelPortServer,
+    PortalClient,
+    PortalNode,
+    PortalServer,
     randomPort
 };
