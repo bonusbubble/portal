@@ -41,7 +41,7 @@ function prepareConfig(config, opts) {
 
 class PortalClient extends PortalNode {
     constructor(opts, cb=null) {
-        super();
+        super(opts.port);
 
         if (!opts.unixSocket && !+opts.port) {
             throw "Invalid proxy port.";

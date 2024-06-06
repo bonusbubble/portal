@@ -47,8 +47,6 @@ function prepareConfig(config, opts) {
 
 class PortalServer extends PortalNode {
     constructor(opts, callback) {
-        super();
-
         if (!opts.unixSocket && !+opts.port) {
             throw "Invalid proxy port.";
         }
@@ -56,6 +54,8 @@ class PortalServer extends PortalNode {
         if (opts.unixSocket && opts.port) {
             throw "Cannot simultaneously listen to both a port and Unix domain socket.";
         }
+
+        super(opts.port);
 
         this._config = {};
 
