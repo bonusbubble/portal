@@ -10,6 +10,10 @@
     "test": "tests"
   },
   "scripts": {
+    "build": "npm run build:linux && npm run build:osx && npm run build:windows",
+    "build:linux": "pkg -t node14-linux -o dist/portal bin/portal.js",
+    "build:osx": "pkg -t node14-osx -o dist/portal-osx bin/portal.js",
+    "build:windows": "pkg -t node14-win -o dist/portal.exe bin/portal.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -42,5 +46,8 @@
     "random-access-memory": "^6.2.1",
     "random-port-promise": "^1.0.1",
     "sodium-universal": "^4.0.0"
+  },
+  "devDependencies": {
+    "pkg": "^5.8.1"
   }
 }
