@@ -1,5 +1,5 @@
 {
-  "name": "@sogouda/portal",
+  "name": "@voidvoxel/portal",
   "version": "0.3.3",
   "description": "♥ P2P networking library | High-level API | Cross-platform ♥",
   "main": "src/index.js",
@@ -10,15 +10,16 @@
     "test": "tests"
   },
   "scripts": {
-    "build": "npm run build:linux && npm run build:osx && npm run build:windows",
+    "build": "npm run build:release-json && npm run build:linux && npm run build:osx && npm run build:windows",
     "build:linux": "pkg -t node14-linux -o dist/portal bin/portal.js",
     "build:osx": "pkg -t node14-osx -o dist/portal-osx bin/portal.js",
+    "build:release-json": "node scripts/build/release-json.js",
     "build:windows": "pkg -t node14-win -o dist/portal.exe bin/portal.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sogouda/portal.git"
+    "url": "git+https://github.com/voidvoxel/portal.git"
   },
   "keywords": [
     "p2p",
@@ -26,12 +27,12 @@
     "networking",
     "api"
   ],
-  "author": "Ashlynne Juniper <support@sogouda.org>",
+  "author": "Ashlynne Juniper <support@voidvoxel.dev>",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/sogouda/portal/issues"
+    "url": "https://github.com/voidvoxel/portal/issues"
   },
-  "homepage": "https://github.com/sogouda/portal#readme",
+  "homepage": "https://github.com/voidvoxel/portal#readme",
   "dependencies": {
     "@hyper-cmd/lib-keys": "https://github.com/holepunchto/hyper-cmd-lib-keys#v0.0.2",
     "@hyper-cmd/lib-net": "https://github.com/holepunchto/hyper-cmd-lib-net#v0.0.8",
