@@ -70,7 +70,6 @@ class PortalServer extends PortalNode {
         const identityJSON = HyperDHT.keyPair(this._seed);
         const identity = PortalIdentity.fromJSON(identityJSON);
 
-        this._identityJSON = identityJSON;
         this._identity = identity;
 
         this._stats = {};
@@ -182,7 +181,7 @@ class PortalServer extends PortalNode {
 
     _listen(callback) {
         this._dhtServer.listen(
-            this._identityJSON
+            this._identity.keys
         ).then(
             () => {
                 if (typeof callback === 'function') {

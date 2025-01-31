@@ -30,6 +30,20 @@ class PortalIdentity {
             randomBytes(64);
     }
 
+    get keys() {
+        return {
+            secretKey: this._privateKey,
+            publicKey: this._publicKey
+        };
+    }
+
+    get json() {
+        return {
+            secretKey: this._privateKey.toString('hex'),
+            publicKey: this._publicKey.toString('hex')
+        };
+    }
+
     get privateKey() {
         return this._privateKey;
     }
@@ -72,13 +86,6 @@ class PortalIdentity {
 
     stringify() {
         return PortalIdentity.stringify(this);
-    }
-
-    get json() {
-        return {
-            secretKey: this._privateKey.toString('hex'),
-            publicKey: this._publicKey.toString('hex')
-        };
     }
 
     async writeFile(path, cryptoKey='', algorithm='utf8') {
