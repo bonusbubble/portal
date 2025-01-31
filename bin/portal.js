@@ -4,10 +4,34 @@ const { randomBytes } = require('crypto');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
+
 const minimist = require('minimist');
-const { randomPort, PortalClient, PortalServer } = require("../src/index.js");
-const { EXIT_CODE_SUCCESS, EXIT_CODE_INVALID_SUBCOMMAND, EXIT_CODE_INVALID_SUBCOMMAND_ACTION, EXIT_CODE_GENERIC } = require("../src/index.js");
+
+
+const {
+    randomPort,
+    PortalClient,
+    PortalServer
+} = require("../src/index.js");
+
+const {
+    EXIT_CODE_SUCCESS,
+    EXIT_CODE_INVALID_SUBCOMMAND,
+    EXIT_CODE_INVALID_SUBCOMMAND_ACTION,
+    EXIT_CODE_GENERIC
+} = require("../src/index.js");
 const { PortalIdentity } = require('../src/auth/PortalIdentity.js');
+
+const {
+    readJSONFileSync
+} = require("../src/util");
+
+const PACKAGE_JSON = readJSONFileSync("./release.json");
+
+
+function isVerboseEnabled(args) {
+    return args.verbose || args.V;
+}
 
 function logHelp(pageNumber) {
     throw "Not yet implemented.";
@@ -20,7 +44,7 @@ function logUsage() {
 }
 
 function logVersion() {
-    console.log('portal v0.1.3 - Ashelynne Juniper (c) 2023 All rights reserved.');
+    console.log(`portal v${PACKAGE_JSON.version} - Ashe Juniper (c) 2023 All rights reserved.`);
 }
 
 async function actionIdentityGet(args) {
@@ -100,7 +124,8 @@ async function actionPortHost(args) {
 
             res.publicKey = e.identity.publicKey.toString('hex');
 
-            console.log(JSON.stringify(res));
+            if (isVerboseEnabled(args))
+                console.log(JSON.stringify(res));
         }
     );
 }
@@ -135,8 +160,8 @@ async function actionPortJoin(args) {
 
             res.port = e.port;
 
-            // console.log(JSON.stringify(e));
-            console.log(e);
+            if (isVerboseEnabled(args))
+                console.log(e);
         }
     );
 }
@@ -227,6 +252,8 @@ async function subcmdUpdate(args) {
     let output = {};
     let result = false;
 
+    const packageName = PACKAGE_JSON.name;
+
     let subcommandArgs = [
         "install",
         "-g"
@@ -236,20 +263,20 @@ async function subcmdUpdate(args) {
     if (
         args.alpha
     ) {
-        subcommandArgs.push("portalnet@alpha");
+        subcommandArgs.push(`${packageName}@alpha`);
     }
     else if (
         args.beta
     ) {
-        subcommandArgs.push("portalnet@beta");
+        subcommandArgs.push(`${packageName}@beta`);
     }
     else if (
         args.rc
     ) {
-        subcommandArgs.push("portalnet@rc");
+        subcommandArgs.push(`${packageName}@rc`);
     }
     else {
-        subcommandArgs.push("portalnet");
+        subcommandArgs.push(packageName);
     }
 
     const subcommand =
