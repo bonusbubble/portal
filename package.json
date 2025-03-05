@@ -1,6 +1,6 @@
 {
   "name": "@bonusbubble/portal",
-  "version": "0.3.3",
+  "version": "0.4.0-alpha",
   "description": "♥ P2P networking library | High-level API | Cross-platform ♥",
   "main": "src/index.js",
   "bin": {
