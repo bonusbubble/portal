@@ -1,3 +1,4 @@
+const fs = require("fs");
 const path = require("path");
 
 const {
@@ -5,8 +6,13 @@ const {
     writeJSONFileSync
 } = require("../../src/util");
 
+const DIST_DIR = path.join(__dirname, "..", "..", "dist");
 
 function main() {
+    if (!fs.existsSync(DIST_DIR)) {
+        fs.mkdirSync(DIST_DIR);
+    }
+
     const packageJSONPath = "package.json";
 
     const {
