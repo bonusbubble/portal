@@ -23,7 +23,7 @@ const {
 } = require("../src/index.js");
 const { PortalIdentity } = require('../src/auth/PortalIdentity.js');
 
-let PACKAGE_JSON = {__PACKAGE_JSON__};
+let PACKAGE_JSON = {$__PACKAGE_JSON__$};
 
 function isVerboseEnabled(args) {
     return args.verbose || args.V;
@@ -40,7 +40,7 @@ function logUsage() {
 }
 
 function logVersion() {
-    console.log(`portal v${PACKAGE_JSON.version} - Ashe Juniper (c) 2023 All rights reserved.`);
+    console.log(`portal v${PACKAGE_JSON.version} - Ashe Juniper (c) 2021-2025 All rights reserved.`);
 }
 
 async function actionIdentityGet(args) {

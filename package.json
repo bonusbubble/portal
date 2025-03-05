@@ -4,17 +4,17 @@
   "description": "♥ P2P networking library | High-level API | Cross-platform ♥",
   "main": "src/index.js",
   "bin": {
-    "portal": "./bin/portal.js"
+    "portal": "./dist/portal.js"
   },
   "directories": {
     "test": "tests"
   },
   "scripts": {
-    "build": "npm run build:release-json && npm run build:linux && npm run build:osx && npm run build:windows",
-    "build:linux": "pkg -t node14-linux -o dist/portal bin/portal.js",
-    "build:osx": "pkg -t node14-osx -o dist/portal-osx bin/portal.js",
-    "build:release-json": "node scripts/build/release-json.js",
-    "build:windows": "pkg -t node14-win -o dist/portal.exe bin/portal.js",
+    "build": "npm run build:portal-bin && npm run build:linux && npm run build:osx && npm run build:windows",
+    "build:linux": "pkg -t node14-linux -o dist/portal dist/portal.js",
+    "build:osx": "pkg -t node14-osx -o dist/portal-osx dist/portal.js",
+    "build:portal-bin": "node scripts/build/portal-bin.js",
+    "build:windows": "pkg -t node14-win -o dist/portal.exe dist/portal.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
