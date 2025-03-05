@@ -1,5 +1,5 @@
 {
-  "name": "@voidvoxel/portal",
+  "name": "@bonusbubble/portal",
   "version": "0.3.3",
   "description": "♥ P2P networking library | High-level API | Cross-platform ♥",
   "main": "src/index.js",
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/voidvoxel/portal.git"
+    "url": "git+https://github.com/bonusbubble/portal.git"
   },
   "keywords": [
     "p2p",
@@ -27,12 +27,12 @@
     "networking",
     "api"
   ],
-  "author": "Ashlynne Juniper <support@voidvoxel.dev>",
+  "author": "Ashlynn Juniper <bonusbubble@bonusbyte.org>",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/voidvoxel/portal/issues"
+    "url": "https://github.com/bonusbubble/portal/issues"
   },
-  "homepage": "https://github.com/voidvoxel/portal#readme",
+  "homepage": "https://github.com/bonusbubble/portal#readme",
   "dependencies": {
     "@hyper-cmd/lib-keys": "https://github.com/holepunchto/hyper-cmd-lib-keys#v0.0.2",
     "@hyper-cmd/lib-net": "https://github.com/holepunchto/hyper-cmd-lib-net#v0.0.8",
