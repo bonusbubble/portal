@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
-const { randomBytes } = require('crypto');
-const util = require('util');
-const exec = util.promisify(require('child_process').exec);
+const { randomBytes } = require("crypto");
+const path = require("path");
+const util = require("util");
+const exec = util.promisify(require("child_process").exec);
 
 
 const minimist = require('minimist');
@@ -22,12 +23,7 @@ const {
 } = require("../src/index.js");
 const { PortalIdentity } = require('../src/auth/PortalIdentity.js');
 
-const {
-    readJSONFileSync
-} = require("../src/util");
-
-const PACKAGE_JSON = readJSONFileSync("./release.json");
-
+let PACKAGE_JSON = {__PACKAGE_JSON__};
 
 function isVerboseEnabled(args) {
     return args.verbose || args.V;
